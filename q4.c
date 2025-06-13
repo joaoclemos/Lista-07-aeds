@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 #define MAX 1500
 
@@ -13,66 +14,37 @@ struct Livro {
 };
 
 int main() {
-    struct Livro exatas[MAX], humanas[MAX], biologicas[MAX];
-    int n_exatas = 0, n_humanas = 0, n_biologicas = 0;
-    int codigo, i;
-    char area[20];
+    struct Livro livros[MAX];
+    int total_livros = 0;
+    int codigo_consulta;
+    char area_consulta[20];
     
-    printf("Digite os dados dos livros (código -1 para encerrar):\n");
+    printf("Cadastro de livros (digite -1 para encerrar):\n");
     while (1) {
-        scanf("%d", &codigo);
-        if (codigo == -1) break;
+        int ignorar;
+        if (scanf("%d", &ignorar) != 1 || ignorar == -1) break;
         
-        struct Livro livro;
-        livro.codigo = codigo;
-        scanf(" %c", &livro.doacao);
-        scanf(" %[^\n]", livro.nome);
-        scanf(" %[^\n]", livro.autor);
-        scanf(" %[^\n]", livro.editora);
-        scanf(" %[^\n]", livro.area);
+        scanf("%d %c", &livros[total_livros].codigo, &livros[total_livros].doacao);
+        scanf(" %[^\n]", livros[total_livros].nome);
+        scanf(" %[^\n]", livros[total_livros].autor);
+        scanf(" %[^\n]", livros[total_livros].editora);
+        scanf(" %[^\n]", livros[total_livros].area);
         
-        if (strcmp(livro.area, "Exatas") == 0 && n_exatas < MAX) {
-            exatas[n_exatas] = livro;
-            n_exatas++;
-        } else if (strcmp(livro.area, "Humanas") == 0 && n_humanas < MAX) {
-            humanas[n_humanas] = livro;
-            n_humanas++;
-        } else if (strcmp(livro.area, "Biologicas") == 0 && n_biologicas < MAX) {
-            biologicas[n_biologicas] = livro;
-            n_biologicas++;
-        }
+        total_livros++;
+        if (total_livros >= MAX) break;
     }
     
-    printf("\nDigite o código e a área para consulta (código -1 para encerrar):\n");
+    printf("\nConsulta de livros (digite -1 para encerrar):\n");
     while (1) {
-        scanf("%d", &codigo);
-        if (codigo == -1) break;
-        scanf(" %[^\n]", area);
+        if (scanf("%d", &codigo_consulta) != 1 || codigo_consulta == -1) break;
+        scanf(" %[^\n]", area_consulta);
         
         int encontrado = 0;
-        if (strcmp(area, "Exatas") == 0) {
-            for (i = 0; i < n_exatas; i++) {
-                if (exatas[i].codigo == codigo) {
-                    printf("Área: %s\n", exatas[i].area);
-                    encontrado = 1;
-                    break;
-                }
-            }
-        } else if (strcmp(area, "Humanas") == 0) {
-            for (i = 0; i < n_humanas; i++) {
-                if (humanas[i].codigo == codigo) {
-                    printf("Área: %s\n", humanas[i].area);
-                    encontrado = 1;
-                    break;
-                }
-            }
-        } else if (strcmp(area, "Biologicas") == 0) {
-            for (i = 0; i < n_biologicas; i++) {
-                if (biologicas[i].codigo == codigo) {
-                    printf("Área: %s\n", biologicas[i].area);
-                    encontrado = 1;
-                    break;
-                }
+        for (int i = 0; i < total_livros; i++) {
+            if (livros[i].codigo == codigo_consulta) {
+                printf("Área: %s\n", livros[i].area);
+                encontrado = 1;
+                break;
             }
         }
         

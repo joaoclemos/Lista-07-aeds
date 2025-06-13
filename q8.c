@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 struct Moto {
     int consumo;
@@ -8,18 +7,15 @@ struct Moto {
 
 int main() {
     struct Moto moto;
-    int distancia;
-    
-    srand(6);
-    distancia = rand() % 101;
-    
+    int distancia = 25;
+
     scanf("%d", &moto.consumo);
     scanf("%d", &moto.tanque);
-    
+
     int autonomia = moto.consumo * moto.tanque;
     int paradas = 0;
 
-    if (distancia > 0 && autonomia > 0) {
+    if (distancia > autonomia) {
         paradas = (distancia - 1) / autonomia;
     }
 
